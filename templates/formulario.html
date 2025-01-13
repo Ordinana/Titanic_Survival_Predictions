@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Predicción</title>
+    <style>
+        /* General */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('./static/titanic_fondo.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        /* Overlay para suavizar la imagen de fondo */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 0;
+        }
+
+        /* Contenedor principal */
+        .container {
+            text-align: center;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Cabecero */
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            color: #fff;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Estilo del formulario */
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px 30px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #555;
+        }
+
+        form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        form input:focus {
+            border-color: #74ebd5;
+            outline: none;
+            box-shadow: 0px 0px 5px rgba(116, 235, 213, 0.8);
+        }
+
+        /* Botón */
+        form button {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        form button:hover {
+            background: linear-gradient(135deg, #ACB6E5, #74ebd5);
+            transform: translateY(-2px);
+        }
+
+        form button:active {
+            transform: translateY(0);
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Formulario de predicción<br>de supervivencia en el Titanic</h1>
+        <form action="/predict" method="POST">
+            <label for="pclass">Pclass:</label>
+            <input type="number" id="pclass" name="Pclass" placeholder="Introduce Pclass (1, 2, 3)" required>
+
+            <label for="sex">Sex:</label>
+            <input type="number" id="sex" name="Sex" placeholder="Introduce Sex (0: Femenino, 1: Masculino)" required>
+
+            <label for="age">Age:</label>
+            <input type="number" step="0.1" id="age" name="Age" placeholder="Introduce Age (en años)" required>
+
+            <button type="submit">Predecir</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -56,21 +56,23 @@ def predict():
     timestamp = datetime.datetime.now().isoformat()
     # Completa aquí: inserta los datos (inputs, predicción, timestamp) en la base de datos
     # Monta DF para subir
-    new_prediction = pd.DataFrame({"pclass": pclass,
-                                    "sex": sex,
-                                    "age":age,
-                                    "prediction": int(prediction[0]),
-                                    "timestamp": timestamp[0:19]})
+    new_prediction = pd.DataFrame({"pclass": [pclass],
+                                    "sex": [sex],
+                                    "age":[age],
+                                    "prediction": [int(prediction[0])],
+                                    "timestamp": [timestamp[0:19]]})
 
     # Si usas la alternativa anterior: prediction: int(prediction)
     # Subir la prediccion
     new_prediction.to_sql("predictions", con=engine, if_exists='append', index=False)
 
     ### Generamos la gráfica
-    read_predictions = pd.read_sql("'''SELECT * FROM predictions'''", con=engine)
+    read_predictions = pd.read_sql('''SELECT * FROM predictions''', con=engine)
     fig = plt.figure()
-    read_predictions.predictions.value_counts().plot(kind="bar")
-    plt.title("Predicciones totales")
+    read_predictions.prediction.value_counts().plot(kind="bar")
+    plt.title("Histórico de predicciones")
+    plt.xlabel('')  # Limpia la etiqueta del eje X
+    plt.ylabel('')  # Limpia la etiqueta del eje Y
 
     # Guardar la gráfica en un buffer en memoria
     buffer = BytesIO()
