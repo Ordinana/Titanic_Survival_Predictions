@@ -1,6 +1,6 @@
 # Predicción de Supervivencia en el Titanic 🚢☠️
 
-![Titanic](static\titanic_fondo.jpeg)
+![Titanic](static/titanic_fondo.jpeg)
 
 ### Este proyecto implementa un modelo avanzado de predicción de supervivencia basado en el dataset del Titanic. La predicción se complementa con narrativas, con un toque de humor, generadas automáticamente empleando **Gemini** para personalizar las descripciones en función del resultado.
 
@@ -25,6 +25,6 @@
 ## **Link** <<< https://titanic-survival-predictions.onrender.com >>>
 
 ## Capturas de pantalla
-![Titanic_home](static\titanic_fondo_home.png)
+![Titanic_home](static/titanic_fondo_home.png)
 
-![Titanic_results](static\titanic_fondo_results.png)
+![Titanic_results](static/titanic_fondo_results.png)
