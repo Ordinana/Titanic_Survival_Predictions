@@ -7,6 +7,12 @@ from io import BytesIO
 import matplotlib.pyplot as plt
 import json
 import base64
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+print(os.environ)
 
 app = Flask(__name__)
 
@@ -24,8 +30,8 @@ with open("titanic_model.pkl", "rb") as f:
 ### HABRÍA QUE CARGAR LA NORMALIZACIÓN
 
 # Crear motor de SQLAlchemy
-churro = 'sqlite:///titanic.db'
-engine = create_engine(churro)
+cadena = os.environ["CADENA"]
+engine = create_engine(cadena)
 
 @app.route('/', methods=['GET'])
 def home():
