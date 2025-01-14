@@ -9,13 +9,13 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 20px 0; /* Espacio superior e inferior */
             background: url('./static/titanic_fondo.jpeg') no-repeat center center fixed;
             background-size: cover;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* Cambiado de center a flex-start */
             color: #333;
         }
 
@@ -35,6 +35,8 @@
         .container {
             text-align: center;
             width: 100%;
+            max-width: 900px; /* Ajustar el ancho total */
+            margin: 20px auto; /* Margen superior e inferior */
             position: relative;
             z-index: 1;
         }
@@ -49,16 +51,17 @@
 
         /* Estilo de los resultados */
         .result {
-            max-width: 400px; /* Reduce el ancho */
-            margin: 0 auto;
-            padding: 15px 20px; /* Reduce el espacio interno */
-            background: rgba(255, 255, 255, 0.8); /* Fondo blanco con opacidad */
+            max-width: 800px; /* Más ancho */
+            margin: 0 auto 20px; /* Margen inferior */
+            padding: 10px 15px; /* Reducir espacio interno */
+            background: rgba(255, 255, 255, 0.85); /* Fondo blanco con opacidad */
             border-radius: 10px; /* Ajusta esquinas redondeadas */
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .result p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            line-height: 1.5; /* Espaciado entre líneas */
             margin: 10px 0;
             color: #555;
         }
@@ -70,7 +73,7 @@
         }
 
         .graph img {
-            max-width: 100%;
+            max-width: 80%; /* Más pequeño */
             height: auto;
             border-radius: 10px;
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
@@ -105,14 +108,28 @@
     <div class="container">
         <h1>Resultado de Predicción</h1>
         <div class="result">
-            <p><strong>Predicción:</strong> {{ prediccion[0] }}</p>
-            <p><strong>Nota:</strong> 1 = Sobrevivió, 0 = No sobrevivió.</p>
+            <!-- Predicción con condición -->
+            <p>
+                <strong>Predicción:</strong>
+                {% if prediccion[0] == 0 %}
+                    <span style="color: red;">No sobrevivió...</span>
+                {% elif prediccion[0] == 1 %}
+                    <span style="color: green;">¡Sobrevivió!</span>
+                {% endif %}
+            </p>
+
+            <!-- Texto generado por Gemini -->
+            <p>
+                <strong>Texto generado:</strong> {{ gen_text }}
+            </p>
         </div>
 
+        <!-- Gráfica -->
         <div class="graph">
             <img src="data:image/png;base64,{{ grafica }}" alt="Gráfica de Predicciones">
         </div>
 
+        <!-- Botón para nueva predicción -->
         <a href="/" class="back-button">Nueva predicción</a>
     </div>
 </body>

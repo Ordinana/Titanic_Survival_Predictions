@@ -4,11 +4,15 @@ import datetime
 from sqlalchemy import create_engine, inspect
 import pandas as pd
 from io import BytesIO
+import matplotlib
+matplotlib.use('Agg')  # Configura el backend no interactivo
 import matplotlib.pyplot as plt
 import json
 import base64
 import os
 from dotenv import load_dotenv
+import google.generativeai as genai
+from utils import get_prompt, get_text
 
 load_dotenv()
 
@@ -75,10 +79,24 @@ def predict():
     ### Generamos la gráfica
     read_predictions = pd.read_sql('''SELECT * FROM predictions''', con=engine)
     fig = plt.figure()
-    read_predictions.prediction.value_counts().plot(kind="bar")
+
+    # Obtener conteo de predicciones
+    value_counts = read_predictions.prediction.value_counts()
+
+    # Asignar colores en función del índice
+    colors = ['red' if index == 0 else 'green' for index in value_counts.index]
+
+    # Crear gráfico de barras
+    ax = value_counts.plot(kind="bar", color=colors)
+
+    # Personalizar título y etiquetas
     plt.title("Histórico de predicciones")
     plt.xlabel('')  # Limpia la etiqueta del eje X
     plt.ylabel('')  # Limpia la etiqueta del eje Y
+
+    # Agregar etiquetas de los valores encima de las barras
+    # for index, value in enumerate(value_counts):
+    #     ax.text(index, value + 0.5, str(value), ha='center', va='top', fontsize=10)
 
     # Guardar la gráfica en un buffer en memoria
     buffer = BytesIO()
@@ -89,8 +107,14 @@ def predict():
     # Codificar la imagen para pasarla por JSON a los resultados
     img_base64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
 
-    # Devolver el resultado y la imagen (grafica) como respuesta
-    return render_template("resultado.html", prediccion=prediction, grafica=img_base64)
+    ### -----> GENERAR TEXTO IA
+    genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
+    gemini = genai.GenerativeModel("gemini-2.0-flash-exp")
+    prompt = get_prompt(new_prediction)
+    generacion = get_text(gemini, prompt)
+
+    # Devolver el resultado, la imagen (grafica) y el texto generado por gemini como respuesta
+    return render_template("resultado.html", prediccion=prediction, grafica=img_base64, gen_text=generacion)
     
 
 @app.route('/records', methods=['GET'])
@@ -103,4 +127,4 @@ def records():
 
 
 if __name__ == "__main__": # Con esto Python sabrá que este fichero es un Script.py ejecutable y no un modulo (Se utiliza si se va a desplegar como APP)
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)
