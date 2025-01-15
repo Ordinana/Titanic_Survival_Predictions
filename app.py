@@ -91,12 +91,13 @@ def predict():
 
     # Cambiar las etiquetas del eje X
     ax.set_xticks([1, 0])  # Posiciones de las barras
-    ax.set_xticklabels(["Sobrevive", "No sobrevive"])
+    ax.set_xticklabels(["Sobrevive", "No sobrevive"], rotation=0, ha='center')
 
     # Personalizar título y etiquetas
     plt.title("Histórico de predicciones")
     plt.xlabel('')  # Limpia la etiqueta del eje X
     plt.xlabel('')  # Limpia la etiqueta del eje Y
+    # plt.xticks(rotation=90, ha='right')
 
     # Ajustar diseño para que no se corten elementos
     plt.tight_layout()
