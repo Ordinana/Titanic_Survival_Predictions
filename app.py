@@ -89,11 +89,18 @@ def predict():
     # Crear gráfico de barras
     ax = value_counts.plot(kind="bar", color=colors)
 
+    # Cambiar las etiquetas del eje X
+    ax.set_xticks([1, 0])  # Posiciones de las barras
+    ax.set_xticklabels(["Sobrevive", "No sobrevive"])
+
     # Personalizar título y etiquetas
     plt.title("Histórico de predicciones")
     plt.xlabel('')  # Limpia la etiqueta del eje X
-    plt.ylabel('')  # Limpia la etiqueta del eje Y
+    plt.xlabel('')  # Limpia la etiqueta del eje Y
 
+    # Ajustar diseño para que no se corten elementos
+    plt.tight_layout()
+    
     # Agregar etiquetas de los valores encima de las barras
     # for index, value in enumerate(value_counts):
     #     ax.text(index, value + 0.5, str(value), ha='center', va='top', fontsize=10)
@@ -127,4 +134,4 @@ def records():
 
 
 if __name__ == "__main__": # Con esto Python sabrá que este fichero es un Script.py ejecutable y no un modulo (Se utiliza si se va a desplegar como APP)
-    app.run(debug=True, use_reloader=False)
+    app.run(debug=True, use_reloader=False, host="0.0.0.0", port=5000)
